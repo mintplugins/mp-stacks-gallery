@@ -13,7 +13,7 @@
  */
  
 /**
- * This function hooks to the brick output. If it is supposed to be a 'feature', then it will output the gallery
+ * This function hooks to the brick output. If it is supposed to be a 'gallery_item', then it will output the gallery
  *
  * @access   public
  * @since    1.0.0
@@ -35,8 +35,8 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 		$gallery_per_row = empty( $gallery_per_row ) ? '2' : $gallery_per_row;
 		
 		//Feature alignment
-		$feature_alignment = get_post_meta($post_id, 'feature_alignment', true);
-		$feature_alignment = empty( $feature_alignment ) ? 'left' : $feature_alignment;
+		$gallery_item_alignment = get_post_meta($post_id, 'gallery_item_alignment', true);
+		$gallery_item_alignment = empty( $gallery_item_alignment ) ? 'left' : $gallery_item_alignment;
 		
 		//Get Gallery Output
 		$gallery_output = '<div class="mp-stacks-gallery">';
@@ -44,71 +44,38 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 		//Get Gallery Output
 		$gallery_output .= '
 		<style scoped>
-			.mp-stacks-feature{ 
-				color:' . get_post_meta($post_id, 'feature_text_color', true) . ';
+			.mp-stacks-gallery_item{ 
+				color:' . get_post_meta($post_id, 'gallery_item_text_color', true) . ';
 				width:' . (100/$gallery_per_row) .'%;
-				text-align:' . $feature_alignment . ';
+				text-align:' . $gallery_item_alignment . ';
 			}
 			@media screen and (max-width: 600px){
-				.mp-stacks-feature{ 
+				.mp-stacks-gallery_item{ 
 					width:' . '100%;
 				}
 			}';
 			
-			$gallery_output .= $feature_alignment != 'left' ? NULL : '.mp-stacks-gallery-icon{ margin: 0px 10px 0px 0px; }';
+			$gallery_output .= $gallery_item_alignment != 'left' ? NULL : '.mp-stacks-gallery-icon{ margin: 0px 10px 0px 0px; }';
 		$gallery_output .= '</style>';
 		
 		//Set counter to 0
 		$counter = 1;
-		
-		if ($gallery_repeaters ){
 			
-			//Loop through each feature
-			foreach( $gallery_repeaters as $gallery_repeater ){
-							
-					$gallery_output .= '<div class="mp-stacks-feature">';
-					
-						$gallery_output .= '<div class="mp-stacks-gallery-icon ' . $gallery_repeater['feature_icon'] . '">';
-							
-							$gallery_output .= '<div class="mp-stacks-gallery-icon-title">' . $gallery_repeater['feature_title'] . '</div>';
-							
-						$gallery_output .= '</div>';
-						
-						$gallery_output .= $feature_alignment == 'center' ? '<div class="mp-stacks-gallery-clearedfix"></div>' : NULL;
-						
-						$gallery_output .= '<div class="mp-stacks-gallery-title">';
-						
-							$gallery_output .= $gallery_repeater['feature_title'];
-							
-						$gallery_output .= '</div>';
-						
-						//Add clear div to bump gallery below title and icon
-						$gallery_output .= '<div class="mp-stacks-gallery-clearedfix"></div>';
-						
-						$gallery_output .= '<div class="mp-stacks-gallery-text">';
-						
-							$gallery_output .= $gallery_repeater['feature_text'];
-								
-						$gallery_output .= '</div>';
-				
-					$gallery_output .= '</div>';
-					
-					if ( $gallery_per_row == $counter ){
-						
-						//Add clear div to bump a new row
-						$gallery_output .= '<div class="mp-stacks-gallery-clearedfix"></div>';
-						
-						//Reset counter
-						$counter = 1;
-					}
-					else{
-						
-						//Increment Counter
-						$counter = $counter + 1;
-						
-					}
-					
-			}
+		$gallery_output .= '<div class="mp-stacks-gallery-justified"><div class="mp-stacks-gallery-picrow"></div></div>';
+		
+		if ( $gallery_per_row == $counter ){
+			
+			//Add clear div to bump a new row
+			$gallery_output .= '<div class="mp-stacks-gallery-clearedfix"></div>';
+			
+			//Reset counter
+			$counter = 1;
+		}
+		else{
+			
+			//Increment Counter
+			$counter = $counter + 1;
+			
 		}
 		
 		$gallery_output .= '</div>';

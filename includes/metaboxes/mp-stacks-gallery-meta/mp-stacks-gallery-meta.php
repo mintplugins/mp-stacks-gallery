@@ -34,17 +34,6 @@ function mp_stacks_gallery_create_meta_box(){
 		'metabox_priority' => 'low' 
 	);
 	
-	$pattern = '/\.(fa-(?:\w+(?:-)?)+):before\s+{\s*content:\s*"(.+)";\s+}/';
-	$subject = file_get_contents( plugins_url( '/fonts/font-awesome-4.0.3/css/font-awesome.css', dirname( dirname( __FILE__ ) ) ) );
-	
-	preg_match_all($pattern, $subject, $matches, PREG_SET_ORDER);
-	
-	$icons = array();
-
-	foreach($matches as $match){
-		$icons[$match[1]] = $match[1];
-	}	
-	
 	/**
 	 * Array which stores all info about the options within the metabox
 	 *
@@ -52,65 +41,11 @@ function mp_stacks_gallery_create_meta_box(){
 	$mp_stacks_gallery_items_array = array(
 		array(
 			'field_id'			=> 'gallery_settings_description',
-			'field_title' 	=> __( 'Overall Gallery Settings', 'mp_stacks_gallery'),
-			'field_description' 	=> '<br />Choose the overall settings for your gallery' ,
-			'field_type' 	=> 'basictext',
-			'field_value' => '',
-		),
-		array(
-			'field_id'			=> 'gallery_per_row',
-			'field_title' 	=> __( 'Gallery Per Row', 'mp_stacks_gallery'),
-			'field_description' 	=> 'How many gallery do you want from left to right before a new row starts?',
-			'field_type' 	=> 'number',
-			'field_value' => '',
-		),
-		array(
-			'field_id'			=> 'gallery_text_color',
-			'field_title' 	=> __( 'Gallery Text Color', 'mp_stacks_gallery'),
-			'field_description' 	=> 'Enter the text color for all of these gallery',
-			'field_type' 	=> 'colorpicker',
-			'field_value' => '',
-		),
-		array(
-			'field_id'			=> 'gallery_alignment',
-			'field_title' 	=> __( 'Gallery Alignment', 'mp_stacks_gallery'),
-			'field_description' 	=> 'Select how you want the gallery to be aligned' ,
-			'field_type' 	=> 'select',
-			'field_value' => '',
-			'field_select_values' => array( 'left' => 'Left', 'center' => 'Center' ),
-		),
-		array(
-			'field_id'			=> 'gallery_description',
-			'field_title' 	=> __( '<br />Add Your Gallery Below', 'mp_stacks_gallery'),
-			'field_description' 	=> '<br />Open up the following areas to add/remove new gallery.' ,
-			'field_type' 	=> 'basictext',
-			'field_value' => '',
-		),
-		array(
-			'field_id'			=> 'gallery_title',
-			'field_title' 	=> __( 'Gallery Title', 'mp_stacks_gallery'),
-			'field_description' 	=> 'Enter the title of this gallery',
+			'field_title' 	=> __( 'Add Gallery', 'mp_stacks_gallery'),
+			'field_description' 	=> '<br /><a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Add Gallery', 'mp_stacks_gallery' ) ,
 			'field_type' 	=> 'textbox',
 			'field_value' => '',
-			'field_repeater' => 'mp_gallery_repeater'
-		),
-		array(
-			'field_id'			=> 'gallery_icon',
-			'field_title' 	=> __( 'Gallery Icon', 'mp_stacks_gallery'),
-			'field_description' 	=> 'Select the icon to use for this gallery',
-			'field_type' 	=> 'iconfontpicker',
-			'field_value' => '',
-			'field_select_values' => $icons,
-			'field_repeater' => 'mp_gallery_repeater'
-		),
-		array(
-			'field_id'			=> 'gallery_text',
-			'field_title' 	=> __( 'Gallery Text (HTML Allowed)', 'mp_stacks_gallery'),
-			'field_description' 	=> 'Enter the text for this gallery.',
-			'field_type' 	=> 'wp_editor',
-			'field_value' => '',
-			'field_repeater' => 'mp_gallery_repeater'
-		),
+		)
 	);
 	
 	

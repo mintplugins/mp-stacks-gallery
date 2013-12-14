@@ -4,7 +4,7 @@
  *
  * @since 1.0.0
  *
- * @package    MP Stacks Gallery
+ * @package    MP Stacks Features
  * @subpackage Functions
  *
  * @copyright  Copyright (c) 2013, Move Plugins
@@ -26,11 +26,18 @@
  * Filter: mp_stacks_gallery_css_location
  */
 function mp_stacks_gallery_enqueue_scripts(){
-			
+		
 	//Enqueue gallery CSS
 	wp_enqueue_style( 'mp_stacks_gallery_css', plugins_url( 'css/gallery.css', dirname( __FILE__ ) ) );
-
+	
+	//Enqueue gallery CSS
+	wp_enqueue_script( 'mp_stacks_gallery_js', plugins_url( 'js/gallery-front-end.js', dirname( __FILE__ ) ), array('jquery') );
+	
 }
+ 
+/**
+ * Enqueue css face for social grid
+ */
 add_action( 'wp_enqueue_scripts', 'mp_stacks_gallery_enqueue_scripts' );
 
 /**
@@ -40,7 +47,10 @@ add_action( 'wp_enqueue_scripts', 'mp_stacks_gallery_enqueue_scripts' );
  */
 function mp_stacks_gallery_admin_enqueue_scripts(){
 	
-	//Enqueue Admin Gallery CSS
+	//Enqueue gallery js
+	wp_enqueue_script( 'mp_stacks_gallery_upload_button', plugins_url( 'js/gallery-upload.js', dirname( __FILE__ ) ) );
+	
+	//Enqueue Admin Features CSS
 	wp_enqueue_style( 'mp_stacks_gallery_css', plugins_url( 'css/admin-gallery.css', dirname( __FILE__ ) ) );
 
 }
