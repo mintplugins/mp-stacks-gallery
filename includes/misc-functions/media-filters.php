@@ -27,56 +27,31 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 		//Set default value for $media_output to NULL
 		$media_output = NULL;	
 		
-		//Get Gallery Metabox Repeater Array
-		$gallery_repeaters = get_post_meta($post_id, 'mp_gallery_repeater', true);
+		//Get Gallery Source Type
+		$gallery_source = get_post_meta($post_id, 'gallery_source', true);
 		
-		//Gallery per row
-		$gallery_per_row = get_post_meta($post_id, 'gallery_per_row', true);
-		$gallery_per_row = empty( $gallery_per_row ) ? '2' : $gallery_per_row;
-		
-		//Feature alignment
-		$gallery_item_alignment = get_post_meta($post_id, 'gallery_item_alignment', true);
-		$gallery_item_alignment = empty( $gallery_item_alignment ) ? 'left' : $gallery_item_alignment;
+		//If Gallery Source is flickr
+		if ( $gallery_source == 'flickr' ){
+			
+			//Get Flickr Photoset ID
+			$gallery_photoset_id = get_post_meta($post_id, 'gallery_flickr_photoset_id', true);	
+			
+			//Get Row Height
+			$gallery_justified_row_height = get_post_meta($post_id, 'gallery_jusitified_row_height', true);	
+			
+			//I'd like to use wp_localize_script but that won't work because it's settings per brick
+			?>
+            <script>
+				mp_stacks_gallery_justified( "<?php echo $gallery_photoset_id; ?>", "<?php echo $gallery_justified_row_height; ?>" );
+			</script>
+            <?php
+			
+		}
 		
 		//Get Gallery Output
 		$gallery_output = '<div class="mp-stacks-gallery">';
-		
-		//Get Gallery Output
-		$gallery_output .= '
-		<style scoped>
-			.mp-stacks-gallery_item{ 
-				color:' . get_post_meta($post_id, 'gallery_item_text_color', true) . ';
-				width:' . (100/$gallery_per_row) .'%;
-				text-align:' . $gallery_item_alignment . ';
-			}
-			@media screen and (max-width: 600px){
-				.mp-stacks-gallery_item{ 
-					width:' . '100%;
-				}
-			}';
 			
-			$gallery_output .= $gallery_item_alignment != 'left' ? NULL : '.mp-stacks-gallery-icon{ margin: 0px 10px 0px 0px; }';
-		$gallery_output .= '</style>';
-		
-		//Set counter to 0
-		$counter = 1;
-			
-		$gallery_output .= '<div class="mp-stacks-gallery-justified"><div class="mp-stacks-gallery-picrow"></div></div>';
-		
-		if ( $gallery_per_row == $counter ){
-			
-			//Add clear div to bump a new row
-			$gallery_output .= '<div class="mp-stacks-gallery-clearedfix"></div>';
-			
-			//Reset counter
-			$counter = 1;
-		}
-		else{
-			
-			//Increment Counter
-			$counter = $counter + 1;
-			
-		}
+			$gallery_output .= '<div class="mp-stacks-gallery-justified"><div class="mp-stacks-gallery-picrow"></div></div>';
 		
 		$gallery_output .= '</div>';
 		

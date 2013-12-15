@@ -40,10 +40,32 @@ function mp_stacks_gallery_create_meta_box(){
 	 */
 	$mp_stacks_gallery_items_array = array(
 		array(
-			'field_id'			=> 'gallery_settings_description',
+			'field_id'			=> 'gallery_source',
+			'field_title' 	=> __( 'Gallery Source', 'mp_stacks_gallery'),
+			'field_description' 	=> __( 'Where should this galery get images from?', 'mp_stacks_gallery' ) ,
+			'field_type' 	=> 'select',
+			'field_value' => '',
+			'field_select_values' => array( 'wp' => 'This WordPress', 'flickr' => 'Flickr' )
+		),
+		array(
+			'field_id'			=> 'gallery_wp_gallery_shortcode',
 			'field_title' 	=> __( 'Add Gallery', 'mp_stacks_gallery'),
-			'field_description' 	=> '<br /><a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Add Gallery', 'mp_stacks_gallery' ) ,
+			'field_description' 	=> '<br /><a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Add Gallery', 'mp_stacks_gallery' ) . '</a>' ,
 			'field_type' 	=> 'textbox',
+			'field_value' => '',
+		),
+		array(
+			'field_id'			=> 'gallery_flickr_photoset_id',
+			'field_title' 	=> __( 'Flickr Photoset', 'mp_stacks_gallery'),
+			'field_description' 	=> '<br />' . __( 'Enter your Flickr PhotoSet ID', 'mp_stacks_gallery' ),
+			'field_type' 	=> 'textbox',
+			'field_value' => '',
+		),
+		array(
+			'field_id'			=> 'gallery_jusitified_row_height',
+			'field_title' 	=> __( 'Max Row Height', 'mp_stacks_gallery'),
+			'field_description' 	=> '<br />' . __( 'Enter the maximum row height which holds the images', 'mp_stacks_gallery' ),
+			'field_type' 	=> 'number',
 			'field_value' => '',
 		)
 	);

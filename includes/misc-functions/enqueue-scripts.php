@@ -47,8 +47,8 @@ add_action( 'wp_enqueue_scripts', 'mp_stacks_gallery_enqueue_scripts' );
  */
 function mp_stacks_gallery_admin_enqueue_scripts(){
 	
-	//Enqueue gallery js
-	wp_enqueue_script( 'mp_stacks_gallery_upload_button', plugins_url( 'js/gallery-upload.js', dirname( __FILE__ ) ) );
+	//Enqueue Admin gallery js
+	wp_enqueue_script( 'mp_stacks_gallery_admin', plugins_url( 'js/gallery-admin.js', dirname( __FILE__ ) ) );
 	
 	//Enqueue Admin Features CSS
 	wp_enqueue_style( 'mp_stacks_gallery_css', plugins_url( 'css/admin-gallery.css', dirname( __FILE__ ) ) );
