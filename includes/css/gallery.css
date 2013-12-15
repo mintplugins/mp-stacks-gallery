@@ -1,0 +1,8 @@
+.mp-stacks-gallery .mp_stacks_a{
+	display:inline-block;	
+}
+.mp-stacks-gallery .mp_stacks_a img{
+	margin:0px;
+	padding:0px;
+	vertical-align:text-bottom;
+}

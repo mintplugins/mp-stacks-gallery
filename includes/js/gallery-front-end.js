@@ -3,6 +3,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 	jQuery(document).ready(function($) {
 		
 		var photo_array = null;
+		var photo_array_o = null;
 		
 		if ( !row_height ){ row_height = 200; }
 		
@@ -28,31 +29,64 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 			var url_size = "_o";
 		}
 		
+		//Get thumbnail sized images
 		$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url"+url_size+"&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
 		function(data, status) {
-						
+			
+			//Assign array to this var
 			photo_array = data.photoset.photo;
 			
-			alert(JSON.stringify(photo_array, null, 4));
+			//If the feed we already have isn't the "o" size
+			if ( url_size != "_o" ){
+				
+				//Get original sized photos for popups
+				$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url_o&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
+				function(data_o, status_o) {
+					
+					//Assign originals array
+					photo_array_o = data_o.photoset.photo;
+					
+					//Process the Photos
+					processPhotos(photo_array, photo_array_o);
+					
+					//Process the photos upon screen resize
+					$(window).resize(function() {
+						processPhotos(photo_array, photo_array_o);
+					});
+									
+				});
+			}
+			//If we don't need to get the originals array (because we already got it)
+			else{
+						
+				//Make the originals array equal to the thumbnails array		
+				photo_array_o = photo_array;
+				
+				//Process the Photos
+				processPhotos(photo_array, photo_array_o);
+				
+				//Process the photos upon screen resize
+				$(window).resize(function() {
+					processPhotos(photo_array, photo_array_o);
+				});
 			
-			processPhotos(photo_array);
-			
-			alert(JSON.stringify(photo_array, null, 4));
-			
-			$(window).resize(function() {
-				processPhotos(photo_array);
-			});
+			}
 			
 		});
+		
+		//Function which will process the photos
+		function processPhotos(photos, photos_o){
 			
-		function processPhotos(photos){
-				
+			//Get the number of photos in the array
 			var total_images = photos.length;
 			
+			//Empty out the area where we'll put the photos
 			$('.mp-stacks-gallery-justified').empty();
+			
+			//Add a row
 			div_rows = $('.mp-stacks-gallery-justified').prepend('<div class="mp-stacks-gallery-picrow"></div>');
 			
-			// get row width - this is fixed.
+			// Get row width - this is fixed.
 			var row_width = div_rows.eq(0).innerWidth();
 			
 			// margin width
@@ -143,9 +177,14 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 					// add to total width with margins
 					tw += photo_width + border * 2;
 					
-					var img =  $('<img/>', {class: "photo", src: photo["url"+url_size], width: photo_width, height: photo_height }).css("margin", border + "px");
+					original_size_url = photos_o[baseline + i]["url_o"];
 					
-					current_row.append(img);
+					var a = $('<a>', {class: "mp_stacks_gallery_image_a", href: original_size_url}).css("margin", border + "px");
+					var img =  $('<img/>', {class: "photo", src: photo["url"+url_size], width: photo_width, height: photo_height });
+					
+					a.append(img);
+					
+					current_row.append(a);
 					
 					i++;
 					
@@ -157,7 +196,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 				i = 0;
 				while( tw < row_width )
 				{
-					var img1 = current_row.find("img:nth-child(" + (i + 1) + ")");
+					var img1 = current_row.find("a:nth-child(" + (i + 1) + ") img");
 					img1.width(img1.width() + 1);
 					i = (i + 1) % photos_per_row;
 					tw++;
@@ -168,7 +207,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 				i = 0;
 				while( tw > row_width )
 				{
-					var img2 = current_row.find("img:nth-child(" + (i + 1) + ")");
+					var img2 = current_row.find("a:nth-child(" + (i + 1) + ") img");
 					img2.width(img2.width() - 1);
 					i = (i + 1) % photos_per_row;
 					tw--;
@@ -184,3 +223,17 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
 		}
 	});
 }
+
+//Lightbox Gallery
+jQuery(document).ready(function($) {
+	//Gallery Images in Lightbox
+	$('.mp-stacks-gallery').each(function() { // the containers for all your galleries
+		$(this).magnificPopup({
+			delegate: '.mp_stacks_gallery_image_a', // the selector for gallery item
+			type: 'image',
+			gallery: {
+			  enabled:true
+			}
+		});
+	}); 
+});
