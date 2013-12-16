@@ -34,7 +34,7 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 		if ( $gallery_source == 'flickr' ){
 			
 			//Get Flickr Photoset ID
-			$gallery_photoset_id = get_post_meta($post_id, 'gallery_flickr_photoset_id', true);	
+			$gallery_photoset_id = get_post_meta($post_id, 'gallery_flickr_photoset_url', true);	
 			
 			//Get Row Height
 			$gallery_justified_row_height = get_post_meta($post_id, 'gallery_jusitified_row_height', true);	

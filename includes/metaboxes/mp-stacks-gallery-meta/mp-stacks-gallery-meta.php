@@ -55,10 +55,10 @@ function mp_stacks_gallery_create_meta_box(){
 			'field_value' => '',
 		),
 		array(
-			'field_id'			=> 'gallery_flickr_photoset_id',
+			'field_id'			=> 'gallery_flickr_photoset_url',
 			'field_title' 	=> __( 'Flickr Photoset', 'mp_stacks_gallery'),
-			'field_description' 	=> '<br />' . __( 'Enter your Flickr PhotoSet ID', 'mp_stacks_gallery' ),
-			'field_type' 	=> 'textbox',
+			'field_description' 	=> '<br />' . __( 'Enter your Flickr PhotoSet URL', 'mp_stacks_gallery' ),
+			'field_type' 	=> 'url',
 			'field_value' => '',
 		),
 		array(

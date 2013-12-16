@@ -1,6 +1,11 @@
-function mp_stacks_gallery_justified( mp_stacks_photoset_id, row_height ){
+function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
 		
 	jQuery(document).ready(function($) {
+		
+		//Get PhotoSet ID from the Photoset URL
+		var mp_stacks_photoset_id = mp_stacks_photoset_url.split( 'sets/');
+		mp_stacks_photoset_id = mp_stacks_photoset_id[1].split( '/');
+		mp_stacks_photoset_id = mp_stacks_photoset_id[0];
 		
 		var photo_array = null;
 		var photo_array_o = null;

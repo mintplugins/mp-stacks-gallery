@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: MP Stacks Gallery
+Plugin Name: MP Stacks + Gallery
 Plugin URI: http://moveplugins.com
 Description: Media Type Add-on for MP Stacks which displays "gallery" about an item in a brick.
-Version: beta1.0.0.1
+Version: beta1.0.0.0
 Author: Move Plugins
 Author URI: http://moveplugins.com
 Text Domain: mp_stacks_gallery
