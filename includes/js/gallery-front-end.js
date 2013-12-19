@@ -54,10 +54,19 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
 					//Process the Photos
 					processPhotos(photo_array, photo_array_o);
 					
-					//Process the photos upon screen resize
-					$(window).resize(function() {
-						processPhotos(photo_array, photo_array_o);
+					//Process the photos upon screen resize				
+					//Function that waits for resize end - so we don't re-process while re-sizing
+					var mp_stacks_gallery_resize_timer;
+					jQuery(window).resize(function(){
+						clearTimeout(mp_stacks_gallery_resize_timer);
+						mp_stacks_gallery_resize_timer = setTimeout(mp_stacks_gallery_resize_end, 100);
 					});
+					
+					//Custom Event which fires after resize has ended
+					function mp_stacks_gallery_resize_end(){
+						
+						processPhotos(photo_array, photo_array_o);
+					}
 									
 				});
 			}
@@ -70,10 +79,19 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
 				//Process the Photos
 				processPhotos(photo_array, photo_array_o);
 				
-				//Process the photos upon screen resize
-				$(window).resize(function() {
-					processPhotos(photo_array, photo_array_o);
+				//Process the photos upon screen resize				
+				//Function that waits for resize end - so we don't re-process while re-sizing
+				var mp_stacks_gallery_resize_timer;
+				jQuery(window).resize(function(){
+					clearTimeout(mp_stacks_gallery_resize_timer);
+					mp_stacks_gallery_resize_timer = setTimeout(mp_stacks_gallery_resize_end, 100);
 				});
+				
+				//Custom Event which fires after resize has ended
+				function mp_stacks_gallery_resize_end(){
+					
+					processPhotos(photo_array, photo_array_o);
+				}
 			
 			}
 			

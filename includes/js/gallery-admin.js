@@ -23,17 +23,29 @@ jQuery(document).ready(function($){
 					var library = controller.get('library');
 					// Need to get all the attachment ids for gallery
 					var ids = library.pluck('id');
-				
-					// send ids to server
-					wp.media.post( 'shiba-mlib-gallery-update', {
-						nonce:      wp.media.view.settings.post.nonce, 
-						html:       wp.media.shibaMlibEditGallery.link,
-						post_id:    wp.media.view.settings.post.id,
-						ids:        ids
-					}).done( function() {
-						window.location = wp.media.shibaMlibEditGallery.link;
+									
+					var shortcode = '[mp_stacks_gallery ids="';
+					
+					var counter = 0;
+					
+					//Loop through each image selected by the user			
+					$.each(ids, function( index, value ) {
+						
+						//Increment a counter
+						counter++;
+						
+						//Add the new image ID to the shortcode string
+						shortcode = shortcode + value;
+						
+						//If this isn't the last iteration, add a comma to the string
+						if ( counter != ids.length ){
+							 shortcode = shortcode + ','	
+						}
 					});
-				
+					
+					//Build shortcode and place it in the text field 
+					$('#gallery_wp_gallery_shortcode').val( shortcode + '"]' );
+
 				});
 
 			
@@ -53,9 +65,9 @@ jQuery(document).ready(function($){
 		// Gets initial gallery-edit images. Function modified from wp.media.gallery.edit
 		// in wp-includes/js/media-editor.js.source.html
 		select: function() {
-			var shortcode = $("#gallery_wp_gallery_shortcode").val(),
-				defaultPostId = wp.media.gallery.defaults.id,
-				attachments, selection;
+				var shortcode = wp.shortcode.next( 'mp_stacks_gallery', $('#gallery_wp_gallery_shortcode').val() ),
+					defaultPostId = wp.media.gallery.defaults.id,
+					attachments, selection;
 		 
 			// Bail if we didn't match the shortcode or all of the content.
 			if ( ! shortcode )
@@ -92,6 +104,7 @@ jQuery(document).ready(function($){
 	
 });
 
+//Set the right Brick Options based on the selected settings
 jQuery(document).ready(function($) {
 	
 	function reset_mp_stacks_gallery_options(){
