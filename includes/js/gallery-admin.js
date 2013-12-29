@@ -120,7 +120,8 @@ jQuery(document).ready(function($) {
 			if ( $(this).val() == 'wp' ){
 				
 				//Show WP Gallery Options
-				$('.mp_field_gallery_wp_gallery_shortcode').css('display', 'block');	
+				$('.mp_field_gallery_wp_gallery_shortcode').css('display', 'block');
+				$('.mp_field_gallery_jusitified_row_height').css('display', 'block');		
 				
 			}
 			

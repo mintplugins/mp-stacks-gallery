@@ -1,55 +1,95 @@
-function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
-		
+function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_height ){
+	
 	jQuery(document).ready(function($) {
 		
-		//Get PhotoSet ID from the Photoset URL
-		var mp_stacks_photoset_id = mp_stacks_photoset_url.split( 'sets/');
-		mp_stacks_photoset_id = mp_stacks_photoset_id[1].split( '/');
-		mp_stacks_photoset_id = mp_stacks_photoset_id[0];
-		
-		var photo_array = null;
-		var photo_array_o = null;
-		
-		if ( !row_height ){ row_height = 200; }
-		
-		//Makes sure images load at X times the size they show at. EG "2" equals double. "3" equals triple.
-		var retina_multiplier = 2;
-		
-		if ( row_height < (75/retina_multiplier) ){
-			var url_size = "_s";
-		}
-		else if ( row_height < (240/retina_multiplier) ){
-			var url_size = "_m";
-		}
-		else if ( row_height < (320/retina_multiplier) ){
-			var url_size = "_n";
-		}
-		else if ( row_height < (640/retina_multiplier) ){
-			var url_size = "_z";
-		}
-		else if ( row_height < (800/retina_multiplier) ){
-			var url_size = "_c";
-		}
-		else if ( row_height > (800/retina_multiplier) ){
-			var url_size = "_o";
-		}
-		
-		//Get thumbnail sized images
-		$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url"+url_size+"&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
-		function(data, status) {
+		if ( typeof mp_stacks_photoset_url_or_array == 'object'){
 			
-			//Assign array to this var
-			photo_array = data.photoset.photo;
+			//This gallery is from WordPress
 			
-			//If the feed we already have isn't the "o" size
-			if ( url_size != "_o" ){
+			var url_size = "_wp";
+			
+			//Process the Photos
+			processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array);
+			
+		}
+		else{
+			
+			//This gallery is from Flickr
+			
+			//Get PhotoSet ID from the Photoset URL
+			var mp_stacks_photoset_id = mp_stacks_photoset_url_or_array.split( 'sets/');
+			mp_stacks_photoset_id = mp_stacks_photoset_id[1].split( '/');
+			mp_stacks_photoset_id = mp_stacks_photoset_id[0];
+			
+			var photo_array = null;
+			var photo_array_o = null;
+			
+			if ( !row_height ){ row_height = 200; }
+			
+			//Makes sure images load at X times the size they show at. EG "2" equals double. "3" equals triple.
+			var retina_multiplier = 2;
+			
+			if ( row_height < (75/retina_multiplier) ){
+				var url_size = "_s";
+			}
+			else if ( row_height < (240/retina_multiplier) ){
+				var url_size = "_m";
+			}
+			else if ( row_height < (320/retina_multiplier) ){
+				var url_size = "_n";
+			}
+			else if ( row_height < (640/retina_multiplier) ){
+				var url_size = "_z";
+			}
+			else if ( row_height < (800/retina_multiplier) ){
+				var url_size = "_c";
+			}
+			else if ( row_height > (800/retina_multiplier) ){
+				var url_size = "_o";
+			}
+			
+			//Get thumbnail sized images
+			$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url"+url_size+"&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
+			function(data, status) {
 				
-				//Get original sized photos for popups
-				$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url_o&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
-				function(data_o, status_o) {
+				//Assign array to this var
+				photo_array = data.photoset.photo;
+				
+				//If the feed we already have isn't the "o" size
+				if ( url_size != "_o" ){
 					
-					//Assign originals array
-					photo_array_o = data_o.photoset.photo;
+					//Get original sized photos for popups
+					$.getJSON("http://api.flickr.com/services/rest/?format=json&extras=url_o&method=flickr.photosets.getPhotos&photoset_id="+mp_stacks_photoset_id+"&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?", null,
+					function(data_o, status_o) {
+						
+						//Assign originals array
+						photo_array_o = data_o.photoset.photo;
+						
+						//Process the Photos
+						processPhotos(photo_array, photo_array_o);
+						
+						//Process the photos upon screen resize				
+						//Function that waits for resize end - so we don't re-process while re-sizing
+						var mp_stacks_gallery_resize_timer;
+						jQuery(window).resize(function(){
+							clearTimeout(mp_stacks_gallery_resize_timer);
+							mp_stacks_gallery_resize_timer = setTimeout(mp_stacks_gallery_resize_end, 100);
+						});
+						
+						//Custom Event which fires after resize has ended
+						function mp_stacks_gallery_resize_end(){
+							
+							processPhotos(photo_array, photo_array_o);
+							
+						}
+										
+					});
+				}
+				//If we don't need to get the originals array (because we already got it)
+				else{
+							
+					//Make the originals array equal to the thumbnails array		
+					photo_array_o = photo_array;
 					
 					//Process the Photos
 					processPhotos(photo_array, photo_array_o);
@@ -66,37 +106,14 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
 					function mp_stacks_gallery_resize_end(){
 						
 						processPhotos(photo_array, photo_array_o);
-					}
-									
-				});
-			}
-			//If we don't need to get the originals array (because we already got it)
-			else{
 						
-				//Make the originals array equal to the thumbnails array		
-				photo_array_o = photo_array;
+					}
 				
-				//Process the Photos
-				processPhotos(photo_array, photo_array_o);
-				
-				//Process the photos upon screen resize				
-				//Function that waits for resize end - so we don't re-process while re-sizing
-				var mp_stacks_gallery_resize_timer;
-				jQuery(window).resize(function(){
-					clearTimeout(mp_stacks_gallery_resize_timer);
-					mp_stacks_gallery_resize_timer = setTimeout(mp_stacks_gallery_resize_end, 100);
-				});
-				
-				//Custom Event which fires after resize has ended
-				function mp_stacks_gallery_resize_end(){
-					
-					processPhotos(photo_array, photo_array_o);
 				}
-			
-			}
-			
-		});
-		
+				
+			});		
+		}
+
 		//Function which will process the photos
 		function processPhotos(photos, photos_o){
 			
@@ -200,7 +217,12 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url, row_height ){
 					// add to total width with margins
 					tw += photo_width + border * 2;
 					
-					original_size_url = photos_o[baseline + i]["url_o"];
+					if (photos_o[baseline + i]["url_o"]){
+						original_size_url = photos_o[baseline + i]["url_o"];
+					}
+					else{
+						original_size_url = photos_o[baseline + i]["url_wp"];
+					}
 					
 					var a = $('<a>', {class: "mp_stacks_gallery_image_a", href: original_size_url}).css("margin", border + "px");
 					var img =  $('<img/>', {class: "photo", src: photo["url"+url_size], width: photo_width, height: photo_height });

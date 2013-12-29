@@ -30,7 +30,7 @@ function mp_stacks_gallery_enqueue_scripts(){
 	//Enqueue gallery CSS
 	wp_enqueue_style( 'mp_stacks_gallery_css', plugins_url( 'css/gallery.css', dirname( __FILE__ ) ) );
 	
-	//Enqueue gallery CSS
+	//Enqueue gallery JS
 	wp_enqueue_script( 'mp_stacks_gallery_js', plugins_url( 'js/gallery-front-end.js', dirname( __FILE__ ) ), array('jquery') );
 	
 }

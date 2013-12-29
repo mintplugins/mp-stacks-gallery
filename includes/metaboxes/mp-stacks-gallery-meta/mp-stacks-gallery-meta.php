@@ -62,7 +62,7 @@ function mp_stacks_gallery_create_meta_box(){
 			'field_value' => '',
 		),
 		array(
-			'field_id'			=> 'gallery_jusitified_row_height',
+			'field_id'			=> 'gallery_justified_row_height',
 			'field_title' 	=> __( 'Max Row Height', 'mp_stacks_gallery'),
 			'field_description' 	=> '<br />' . __( 'Enter the maximum row height which holds the images', 'mp_stacks_gallery' ),
 			'field_type' 	=> 'number',
