@@ -21,7 +21,8 @@
  * @param    array $args See link for description.
  * @return   void
  */
-function mp_stacks_gallery_create_meta_box(){	
+function mp_stacks_gallery_create_meta_box(){
+		
 	/**
 	 * Array which stores all info about the new metabox
 	 *
@@ -33,7 +34,7 @@ function mp_stacks_gallery_create_meta_box(){
 		'metabox_context' => 'advanced', 
 		'metabox_priority' => 'low' 
 	);
-	
+			
 	/**
 	 * Array which stores all info about the options within the metabox
 	 *
@@ -42,16 +43,16 @@ function mp_stacks_gallery_create_meta_box(){
 		array(
 			'field_id'			=> 'gallery_source',
 			'field_title' 	=> __( 'Gallery Source', 'mp_stacks_gallery'),
-			'field_description' 	=> __( 'Where should this galery get images from?', 'mp_stacks_gallery' ) ,
+			'field_description' 	=> __( 'Where should this gallery get images from?', 'mp_stacks_gallery' ) ,
 			'field_type' 	=> 'select',
 			'field_value' => '',
 			'field_select_values' => array( 'wp' => 'This WordPress', 'flickr' => 'Flickr' )
 		),
 		array(
 			'field_id'			=> 'gallery_wp_gallery_shortcode',
-			'field_title' 	=> __( 'Add Gallery', 'mp_stacks_gallery'),
-			'field_description' 	=> '<br /><a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Add Gallery', 'mp_stacks_gallery' ) . '</a>' ,
-			'field_type' 	=> 'textbox',
+			'field_title' 	=> __( 'Gallery Images: ', 'mp_stacks_gallery'),
+			'field_description' 	=> '<a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Manage', 'mp_stacks_gallery' ) . '</a>' ,
+			'field_type' 	=> 'hidden',
 			'field_value' => '',
 		),
 		array(
@@ -89,3 +90,37 @@ function mp_stacks_gallery_create_meta_box(){
 	$mp_stacks_gallery_meta_box = new MP_CORE_Metabox($mp_stacks_gallery_add_meta_box, $mp_stacks_gallery_items_array);
 }
 add_action('plugins_loaded', 'mp_stacks_gallery_create_meta_box');
+
+/**
+ * Create filter to set the description to be the link to the saved file. 
+ * We do it in a filter because it makes the post_id available to us
+ */ 
+function mp_stacks_gallery_gallery_wp_gallery_shortcode($description, $post_id){
+	
+	//Get images attached to WordPress gallery
+	$mp_stacks_gallery_shortcode = get_post_meta( $post_id, 'gallery_wp_gallery_shortcode', true);
+	
+	//Content url
+	$wp_content_url = content_url();
+	
+	//Extract shortcode values
+	$photos_array_for_loop = explode( '"', $mp_stacks_gallery_shortcode );
+	$photos_array_for_loop = explode( ',', $photos_array_for_loop[1] );
+	
+	$photos_string = '<div class="mp-stacks-gallery-meta-button mp-stacks-gallery-preview">';
+	
+	//Assemble javascript array
+	foreach( $photos_array_for_loop as $key => $post_id ){
+		
+		//get photo meta
+		$photo_meta = wp_get_attachment_metadata( $post_id );
+				
+		//Build photo string
+		$photos_string .= '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' . $wp_content_url .'/uploads/' . $photo_meta['file'] . ' /></a>';
+		
+	}
+	
+	return $description . $photos_string . '</div>';	
+	
+}
+add_filter('mp_gallery_wp_gallery_shortcode_description', 'mp_stacks_gallery_gallery_wp_gallery_shortcode', 10, 2);

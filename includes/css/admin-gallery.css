@@ -1,0 +1,7 @@
+.mp-stacks-gallery-preview a{
+	display:inline-block;
+}
+.mp-stacks-gallery-preview img{
+	width:50px;	
+	margin:10px 10px 0px 0px;
+}

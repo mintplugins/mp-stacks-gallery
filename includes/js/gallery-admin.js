@@ -21,8 +21,12 @@ jQuery(document).ready(function($){
 				function() {
 					var controller = wp.media.mp_stacks_gallery_editor._frame.states.get('gallery-edit');
 					var library = controller.get('library');
+
 					// Need to get all the attachment ids for gallery
 					var ids = library.pluck('id');
+					
+					// Need to get all the attachment ids for gallery
+					var thumbnails = library.pluck('sizes');
 									
 					var shortcode = '[mp_stacks_gallery ids="';
 					
@@ -30,7 +34,7 @@ jQuery(document).ready(function($){
 					
 					//Loop through each image selected by the user			
 					$.each(ids, function( index, value ) {
-						
+					
 						//Increment a counter
 						counter++;
 						
@@ -45,7 +49,25 @@ jQuery(document).ready(function($){
 					
 					//Build shortcode and place it in the text field 
 					$('#gallery_wp_gallery_shortcode').val( shortcode + '"]' );
+					
+					//Show thumbnail preview
+					$('.mp-stacks-gallery-preview').empty();
+						
+					//Loop through each image thumbnail selected by the user			
+					$.each(thumbnails, function( index, value ) {
 
+						if ( value.thumbnail ){
+							var imageurl = value.thumbnail.url;
+						}
+						else{
+							var imageurl = value.full.url;
+						}
+						
+						//Show thumbnail preview
+						$('.mp-stacks-gallery-preview').append( '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' + JSON.stringify(imageurl, null, 4) + ' /></a>' );
+
+					});
+					
 				});
 
 			
@@ -53,7 +75,7 @@ jQuery(document).ready(function($){
 		},
 	 
 		init: function() {
-			$('.mp-stacks-gallery-meta-button').click( function( event ) {
+			$('.mp-stacks-gallery-meta-button').on( "click", function( event ) {
 				
 				event.preventDefault();
 	 

@@ -22,7 +22,7 @@
  if (!function_exists('mp_stacks_gallery_update')){
 	function mp_stacks_gallery_update() {
 		$args = array(
-			'software_name' => 'MP Stacks Gallery', //<- The exact name of this Plugin.
+			'software_name' => 'MP Stacks + Gallery', //<- The exact name of this Plugin.
 			'software_api_url' => 'http://moveplugins.com',//The URL where Gallery and mp_repo are installed and checked
 			'software_filename' => 'mp-stacks-gallery.php',
 			'software_licensed' => true, //<-Boolean

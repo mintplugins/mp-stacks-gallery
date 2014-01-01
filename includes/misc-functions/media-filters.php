@@ -70,12 +70,8 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 				
 				//get photo meta
 				$photo_meta = wp_get_attachment_metadata( $post_id );
-				
-				$photo_url_prefix = explode( '/',  $photo_meta['file'] );		
-				$photo_url_prefix = content_url() . '/uploads/' . $photo_url_prefix[0] . '/' . $photo_url_prefix[1] . '/';
 								
 				//set values for js
-				//$photos_array[$key]['url_wp'] = $photo_url_prefix . $photo_meta['sizes']['large']['file'];
 				$photos_array[$key]['url_wp'] = $wp_content_url .'/uploads/' . $photo_meta['file'];
 				$photos_array[$key]['height_wp'] = $photo_meta['height'];
 				$photos_array[$key]['width_wp'] = $photo_meta['width'];
