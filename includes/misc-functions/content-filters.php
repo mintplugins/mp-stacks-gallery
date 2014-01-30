@@ -1,6 +1,6 @@
 <?php 
 /**
- * This file contains the function which hooks to a brick's media output
+ * This file contains the function which hooks to a brick's content output
  *
  * @since 1.0.0
  *
@@ -19,13 +19,13 @@
  * @since    1.0.0
  * @return   void
  */
-function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_media_type, $post_id){
+function mp_stacks_brick_content_output_gallery($default_content_output, $mp_stacks_content_type, $post_id){
 	
-	//If this stack media type is set to be an image	
-	if ($mp_stacks_media_type == 'gallery'){
+	//If this stack content type is set to be an image	
+	if ($mp_stacks_content_type == 'gallery'){
 		
-		//Set default value for $media_output to NULL
-		$media_output = NULL;	
+		//Set default value for $content_output to NULL
+		$content_output = NULL;	
 		
 		//Get Gallery Source Type
 		$gallery_source = get_post_meta($post_id, 'gallery_source', true);
@@ -133,15 +133,15 @@ function mp_stacks_brick_media_output_gallery($default_media_output, $mp_stacks_
 		
 		$gallery_output .= '</div>';
 		
-		//Media output
-		$media_output .= $gallery_output;
+		//Content output
+		$content_output .= $gallery_output;
 		
 		//Return
-		return $media_output;
+		return $content_output;
 	}
 	else{
 		//Return
-		return $default_media_output;
+		return $default_content_output;
 	}
 }
-add_filter('mp_stacks_brick_media_output', 'mp_stacks_brick_media_output_gallery', 10, 3);
+add_filter('mp_stacks_brick_content_output', 'mp_stacks_brick_content_output_gallery', 10, 3);

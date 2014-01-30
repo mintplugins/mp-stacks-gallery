@@ -29,7 +29,7 @@ function mp_stacks_gallery_create_meta_box(){
 	 */
 	$mp_stacks_gallery_add_meta_box = array(
 		'metabox_id' => 'mp_stacks_gallery_metabox', 
-		'metabox_title' => __( '"Gallery"  - Media Type', 'mp_stacks_gallery'), 
+		'metabox_title' => __( '"Gallery" Content-Type', 'mp_stacks_gallery'), 
 		'metabox_posttype' => 'mp_brick', 
 		'metabox_context' => 'advanced', 
 		'metabox_priority' => 'low' 

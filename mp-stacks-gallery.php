@@ -3,7 +3,7 @@
 Plugin Name: MP Stacks + Gallery
 Plugin URI: http://moveplugins.com
 Description: Display a photo gallery in a brick.
-Version: beta1.0.0.1
+Version: beta1.0.0.2
 Author: Move Plugins
 Author URI: http://moveplugins.com
 Text Domain: mp_stacks_gallery
@@ -141,7 +141,7 @@ function mp_stacks_gallery_include_files(){
 		/**
 		 * Media Filters for gallery
 		 */
-		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/misc-functions/media-filters.php' );
+		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/misc-functions/content-filters.php' );
 		
 		/**
 		 * Metabox for gallery
@@ -149,9 +149,9 @@ function mp_stacks_gallery_include_files(){
 		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/metaboxes/mp-stacks-gallery-meta/mp-stacks-gallery-meta.php' );
 		
 		/**
-		 * Metabox which adds gallery as a media type
+		 * Metabox which adds gallery as a content type
 		 */
-		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/metaboxes/mp-stacks-media/mp-stacks-media.php' );
+		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/metaboxes/mp-stacks-content/mp-stacks-content.php' );
 				
 	}
 }
