@@ -33,4 +33,4 @@ function mp_stacks_gallery_add_media_type( $mp_stacks_media_items_array ){
 	return $mp_stacks_media_items_array;
 
 }
-add_filter('mp_stacks_media_items_array', 'mp_stacks_gallery_add_media_type');
+add_filter('mp_stacks_content_types_array', 'mp_stacks_gallery_add_media_type');
