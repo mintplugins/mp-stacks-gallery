@@ -115,10 +115,11 @@ function mp_stacks_gallery_gallery_wp_gallery_shortcode($description, $post_id){
 			
 			//get photo meta
 			$photo_meta = wp_get_attachment_metadata( $post_id );
+			$photo_attributes = wp_get_attachment_image_src( $post_id );
 					
 			if ( isset($photo_meta['file'] ) ){		
 				//Build photo string
-				$photos_string .= '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' . $wp_content_url .'/uploads/' . $photo_meta['file'] . ' /></a>';
+				$photos_string .= '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' . $photo_attributes[0]. ' /></a>';
 			}
 			
 		}

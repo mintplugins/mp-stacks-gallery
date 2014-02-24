@@ -22,7 +22,7 @@ jQuery(document).ready(function($){
 					function() {
 						var controller = wp.media.mp_stacks_gallery_editor._frame.states.get('gallery-edit');
 						var library = controller.get('library');
-	
+							
 						// Need to get all the attachment ids for gallery
 						var ids = library.pluck('id');
 						
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
 							
 						//Loop through each image thumbnail selected by the user			
 						$.each(thumbnails, function( index, value ) {
-	
+														
 							if ( value.thumbnail ){
 								var imageurl = value.thumbnail.url;
 							}

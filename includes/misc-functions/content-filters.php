@@ -72,11 +72,13 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 				
 				//get photo meta
 				$photo_meta = wp_get_attachment_metadata( $post_id );
-								
+				
+				$photo_attributes = wp_get_attachment_image_src( $post_id, 'large' );
+												
 				//set values for js
-				$photos_array[$key]['url_wp'] = $wp_content_url .'/uploads/' . $photo_meta['file'];
-				$photos_array[$key]['height_wp'] = $photo_meta['height'];
-				$photos_array[$key]['width_wp'] = $photo_meta['width'];
+				$photos_array[$key]['url_wp'] = $photo_attributes[0];
+				$photos_array[$key]['width_wp'] = $photo_attributes[1];
+				$photos_array[$key]['height_wp'] = $photo_attributes[2];
 				$photos_array[$key]['title'] = $photo_meta['image_meta']['title'];
 				
 			}
