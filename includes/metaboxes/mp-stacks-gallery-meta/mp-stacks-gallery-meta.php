@@ -100,27 +100,31 @@ function mp_stacks_gallery_gallery_wp_gallery_shortcode($description, $post_id){
 	//Get images attached to WordPress gallery
 	$mp_stacks_gallery_shortcode = get_post_meta( $post_id, 'gallery_wp_gallery_shortcode', true);
 	
-	//Content url
-	$wp_content_url = content_url();
+	$photos_string = NULL;
 	
-	//Extract shortcode values
-	$photos_array_for_loop = explode( '"', $mp_stacks_gallery_shortcode );
-	$photos_array_for_loop = explode( ',', $photos_array_for_loop[1] );
-	
-	$photos_string = '<div class="mp-stacks-gallery-meta-button mp-stacks-gallery-preview">';
-	
-	//Assemble javascript array
-	foreach( $photos_array_for_loop as $key => $post_id ){
+	if (!empty($mp_stacks_gallery_shortcode)){
+		//Content url
+		$wp_content_url = content_url();
 		
-		//get photo meta
-		$photo_meta = wp_get_attachment_metadata( $post_id );
-				
-		//Build photo string
-		$photos_string .= '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' . $wp_content_url .'/uploads/' . $photo_meta['file'] . ' /></a>';
+		//Extract shortcode values
+		$photos_array_for_loop = explode( '"', $mp_stacks_gallery_shortcode );
+		$photos_array_for_loop = explode( ',', $photos_array_for_loop[1] );
 		
+		//Assemble javascript array
+		foreach( $photos_array_for_loop as $key => $post_id ){
+			
+			//get photo meta
+			$photo_meta = wp_get_attachment_metadata( $post_id );
+					
+			if ( isset($photo_meta['file'] ) ){		
+				//Build photo string
+				$photos_string .= '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' . $wp_content_url .'/uploads/' . $photo_meta['file'] . ' /></a>';
+			}
+			
+		}
 	}
 	
-	return $description . $photos_string . '</div>';	
+	return $description . '<div class="mp-stacks-gallery-meta-button mp-stacks-gallery-preview">' . $photos_string . '</div>';	
 	
 }
 add_filter('mp_gallery_wp_gallery_shortcode_description', 'mp_stacks_gallery_gallery_wp_gallery_shortcode', 10, 2);

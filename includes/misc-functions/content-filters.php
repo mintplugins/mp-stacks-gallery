@@ -38,6 +38,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			
 			//Get Row Height
 			$gallery_justified_row_height = get_post_meta($post_id, 'gallery_justified_row_height', true);	
+			$gallery_justified_row_height = !empty($gallery_justified_row_height) ? $gallery_justified_row_height : 200;
 			
 			//I'd like to use wp_localize_script but that won't work because it's settings per brick
 			?>
@@ -64,7 +65,8 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			
 			//Get Row Height
 			$gallery_justified_row_height = get_post_meta($post_id, 'gallery_justified_row_height', true);	
-						
+			$gallery_justified_row_height = !empty($gallery_justified_row_height) ? $gallery_justified_row_height : 200;
+			
 			//Assemble javascript array
 			foreach( $photos_array_for_loop as $key => $post_id ){
 				

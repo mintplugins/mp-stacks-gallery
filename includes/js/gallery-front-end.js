@@ -2,6 +2,8 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 	
 	jQuery(document).ready(function($) {
 		
+		if ( !row_height ){ row_height = 200; }
+		
 		if ( typeof mp_stacks_photoset_url_or_array == 'object'){
 			
 			//This gallery is from WordPress
@@ -10,6 +12,21 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 			
 			//Process the Photos
 			processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array);
+			
+			//Process the photos upon screen resize				
+			//Function that waits for resize end - so we don't re-process while re-sizing
+			var mp_stacks_gallery_resize_timer;
+			jQuery(window).resize(function(){
+				clearTimeout(mp_stacks_gallery_resize_timer);
+				mp_stacks_gallery_resize_timer = setTimeout(mp_stacks_gallery_resize_end, 100);
+			});
+			
+			//Custom Event which fires after resize has ended
+			function mp_stacks_gallery_resize_end(){
+				
+				processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array);
+				
+			}
 			
 		}
 		else{
@@ -23,8 +40,6 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 			
 			var photo_array = null;
 			var photo_array_o = null;
-			
-			if ( !row_height ){ row_height = 200; }
 			
 			//Makes sure images load at X times the size they show at. EG "2" equals double. "3" equals triple.
 			var retina_multiplier = 2;
