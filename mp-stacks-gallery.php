@@ -3,7 +3,7 @@
 Plugin Name: MP Stacks + Gallery
 Plugin URI: http://moveplugins.com
 Description: Display a photo gallery in a brick.
-Version: beta1.0.0.5
+Version: beta1.0.0.6
 Author: Move Plugins
 Author URI: http://moveplugins.com
 Text Domain: mp_stacks_gallery

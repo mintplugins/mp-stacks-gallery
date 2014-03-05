@@ -38,7 +38,7 @@ function mp_stacks_gallery_enqueue_scripts(){
 /**
  * Enqueue css face for social grid
  */
-add_action( 'mp_stacks_enqueue_scripts', 'mp_stacks_gallery_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'mp_stacks_gallery_enqueue_scripts' );
 
 /**
  * Enqueue css and js

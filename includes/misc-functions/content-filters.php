@@ -43,7 +43,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			//I'd like to use wp_localize_script but that won't work because it's settings per brick
 			?>
             <script>
-				mp_stacks_gallery_justified( "<?php echo $gallery_photoset_id; ?>", "<?php echo $gallery_justified_row_height; ?>" );
+				mp_stacks_gallery_justified( "<?php echo $gallery_photoset_id; ?>", "<?php echo $gallery_justified_row_height; ?>", "<?php echo $post_id; ?>" );
 			</script>
             <?php
 			
@@ -68,12 +68,12 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			$gallery_justified_row_height = !empty($gallery_justified_row_height) ? $gallery_justified_row_height : 200;
 			
 			//Assemble javascript array
-			foreach( $photos_array_for_loop as $key => $post_id ){
+			foreach( $photos_array_for_loop as $key => $image_id ){
 				
 				//get photo meta
-				$photo_meta = wp_get_attachment_metadata( $post_id );
+				$photo_meta = wp_get_attachment_metadata( $image_id );
 				
-				$photo_attributes = wp_get_attachment_image_src( $post_id, 'large' );
+				$photo_attributes = wp_get_attachment_image_src( $image_id, 'large' );
 												
 				//set values for js
 				$photos_array[$key]['url_wp'] = $photo_attributes[0];
@@ -85,7 +85,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			?>
 			<script>
 				
-				var mp_stacks_gallery_wp_array = [<?php 
+				var mp_stacks_gallery_wp_array_<?php echo $post_id; ?> = [<?php 
 					
 					//Assemble javascript array
 					//Loop through each photo in the array
@@ -123,7 +123,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 				?>
 				];
 				
-				mp_stacks_gallery_justified( mp_stacks_gallery_wp_array, "<?php echo $gallery_justified_row_height; ?>" );
+				mp_stacks_gallery_justified( mp_stacks_gallery_wp_array_<?php echo $post_id; ?>, "<?php echo $gallery_justified_row_height; ?>", "<?php echo $post_id; ?>" );
 				
 			</script>
             <?php

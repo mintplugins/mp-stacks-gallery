@@ -1,4 +1,4 @@
-function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_height ){
+function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_height, brick_id ){
 	
 	jQuery(document).ready(function($) {
 		
@@ -11,7 +11,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 			var url_size = "_wp";
 			
 			//Process the Photos
-			processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array);
+			processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array, brick_id);
 			
 			//Process the photos upon screen resize				
 			//Function that waits for resize end - so we don't re-process while re-sizing
@@ -24,7 +24,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 			//Custom Event which fires after resize has ended
 			function mp_stacks_gallery_resize_end(){
 				
-				processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array);
+				processPhotos(mp_stacks_photoset_url_or_array, mp_stacks_photoset_url_or_array, brick_id);
 				
 			}
 			
@@ -81,7 +81,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 						photo_array_o = data_o.photoset.photo;
 						
 						//Process the Photos
-						processPhotos(photo_array, photo_array_o);
+						processPhotos(photo_array, photo_array_o, brick_id);
 						
 						//Process the photos upon screen resize				
 						//Function that waits for resize end - so we don't re-process while re-sizing
@@ -94,7 +94,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 						//Custom Event which fires after resize has ended
 						function mp_stacks_gallery_resize_end(){
 							
-							processPhotos(photo_array, photo_array_o);
+							processPhotos(photo_array, photo_array_o, brick_id);
 							
 						}
 										
@@ -107,7 +107,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 					photo_array_o = photo_array;
 					
 					//Process the Photos
-					processPhotos(photo_array, photo_array_o);
+					processPhotos(photo_array, photo_array_o, brick_id);
 					
 					//Process the photos upon screen resize				
 					//Function that waits for resize end - so we don't re-process while re-sizing
@@ -120,7 +120,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 					//Custom Event which fires after resize has ended
 					function mp_stacks_gallery_resize_end(){
 						
-						processPhotos(photo_array, photo_array_o);
+						processPhotos(photo_array, photo_array_o, brick_id);
 						
 					}
 				
@@ -130,16 +130,16 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 		}
 
 		//Function which will process the photos
-		function processPhotos(photos, photos_o){
+		function processPhotos(photos, photos_o, brick_id){
 			
 			//Get the number of photos in the array
 			var total_images = photos.length;
 			
 			//Empty out the area where we'll put the photos
-			$('.mp-stacks-gallery-justified').empty();
+			$('#mp-brick-' + brick_id + ' .mp-stacks-gallery-justified').empty();
 			
 			//Add a row
-			div_rows = $('.mp-stacks-gallery-justified').prepend('<div class="mp-stacks-gallery-picrow"></div>');
+			div_rows = $('#mp-brick-' + brick_id + ' .mp-stacks-gallery-justified').prepend('<div class="mp-stacks-gallery-picrow"></div>');
 			
 			// Get row width - this is fixed.
 			var row_width = div_rows.eq(0).innerWidth();
@@ -168,7 +168,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 				rowNum++;
 					
 				if ( !current_row ){
-					var current_row = $("div.mp-stacks-gallery-picrow");
+					var current_row = $('#mp-brick-' + brick_id + ' div.mp-stacks-gallery-picrow');
 				}
 				
 				current_row.empty();
@@ -195,7 +195,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 				if ( baseline < (total_images-photos_per_row) ){
 					
 					//Create the next row
-					var next_row = $(current_row).clone().appendTo('.mp-stacks-gallery-justified');
+					var next_row = $(current_row).clone().appendTo('#mp-brick-' + brick_id + ' .mp-stacks-gallery-justified');
 					
 					//Empty it out
 					next_row.empty();
