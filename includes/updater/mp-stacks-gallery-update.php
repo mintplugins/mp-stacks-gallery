@@ -7,7 +7,7 @@
  * @package    MP Stacks Gallery
  * @subpackage Functions
  *
- * @copyright  Copyright (c) 2013, Move Plugins
+ * @copyright  Copyright (c) 2014, Mint Plugins
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @author     Philip Johnston
  */
@@ -23,7 +23,7 @@
 	function mp_stacks_gallery_update() {
 		$args = array(
 			'software_name' => 'MP Stacks + Gallery', //<- The exact name of this Plugin.
-			'software_api_url' => 'http://moveplugins.com',//The URL where Gallery and mp_repo are installed and checked
+			'software_api_url' => 'http://mintplugins.com',//The URL where Gallery and mp_repo are installed and checked
 			'software_filename' => 'mp-stacks-gallery.php',
 			'software_licensed' => true, //<-Boolean
 		);

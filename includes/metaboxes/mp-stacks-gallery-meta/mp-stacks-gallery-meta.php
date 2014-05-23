@@ -2,13 +2,13 @@
 /**
  * This page contains functions for modifying the metabox for gallery as a media type
  *
- * @link http://moveplugins.com/doc/
+ * @link http://mintplugins.com/doc/
  * @since 1.0.0
  *
  * @package    MP Stacks Gallery
  * @subpackage Functions
  *
- * @copyright   Copyright (c) 2013, Move Plugins
+ * @copyright   Copyright (c) 2014, Mint Plugins
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @author      Philip Johnston
  */
@@ -17,7 +17,7 @@
  * Add Gallery as a Media Type to the dropdown
  *
  * @since    1.0.0
- * @link     http://moveplugins.com/doc/
+ * @link     http://mintplugins.com/doc/
  * @param    array $args See link for description.
  * @return   void
  */
@@ -77,11 +77,14 @@ function mp_stacks_gallery_create_meta_box(){
 	 */
 	$mp_stacks_gallery_add_meta_box = has_filter('mp_stacks_gallery_meta_box_array') ? apply_filters( 'mp_stacks_gallery_meta_box_array', $mp_stacks_gallery_add_meta_box) : $mp_stacks_gallery_add_meta_box;
 	
+	//Globalize the and populate mp_stacks_features_items_array (do this before filter hooks are run)
+	global $global_mp_stacks_gallery_items_array;
+	$global_mp_stacks_gallery_items_array = $mp_stacks_gallery_items_array;
+	
 	/**
 	 * Custom filter to allow for add on plugins to hook in their own extra fields 
 	 */
 	$mp_stacks_gallery_items_array = has_filter('mp_stacks_gallery_items_array') ? apply_filters( 'mp_stacks_gallery_items_array', $mp_stacks_gallery_items_array) : $mp_stacks_gallery_items_array;
-	
 	
 	/**
 	 * Create Metabox class
@@ -92,8 +95,7 @@ function mp_stacks_gallery_create_meta_box(){
 add_action('plugins_loaded', 'mp_stacks_gallery_create_meta_box');
 
 /**
- * Create filter to set the description to be the link to the saved file. 
- * We do it in a filter because it makes the post_id available to us
+ * Create filter to set the description to be the Gallery Preview
  */ 
 function mp_stacks_gallery_gallery_wp_gallery_shortcode($description, $post_id){
 	

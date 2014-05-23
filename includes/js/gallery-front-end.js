@@ -147,15 +147,32 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 			// margin width
 			var border = 5;
 			
+			//In order to find the widths, we need to use an extension on the width key of either "_o" for Flickr or "_wp" for WordPress
+			
+			//If we're not coming from wordpress, its flickr so set it up to grab the original sizes
+			if ( url_size != '_wp' ){
+				width_finder_size = '_o';
+			}
+			//Otherwise grab it using the sizes we gave from WordPress
+			else{
+				width_finder_size = '_wp';
+			}	
+			
 			// store relative widths of all images (scaled to match estimate height above)
 			var widths_array = [];
-			$.each(photos, function(key, val) {
-				var photo_width = parseInt(val["width" + url_size], 10);
-				var photo_height = parseInt(val["height" + url_size], 10);
+			$.each(photos_o, function(key, val) {
+				var photo_width = parseInt(val["width" + width_finder_size], 10);
+				if ( !photo_width ){
+					photo_width = 200;	
+				}
+				var photo_height = parseInt(val["height" + width_finder_size], 10);
+				if ( !photo_height ){
+					photo_height = 200;	
+				}
 				if( photo_height != row_height ) { photo_width = Math.floor(photo_width * (row_height / photo_height )); }
 				widths_array.push(photo_width);
 			});
-				
+			
 			// total number of images appearing in all previous rows
 			var baseline = 0; 
 			var rowNum = 0;
@@ -239,8 +256,18 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 						original_size_url = photos_o[baseline + i]["url_wp"];
 					}
 					
+					//If there's no url in the default url size, it's likely the image is too small to have a thumbnail created for it at this size by flickr
+					//So instead we'll get it from the originals array
+					if ( !photo["url"+url_size] ){
+						photo_to_show_url = original_size_url;	
+					}
+					//If there is a url, grab it from the size we want rather than the original - which COULD be massive and take forever
+					else{
+						photo_to_show_url = photo["url"+url_size];
+					}
+					
 					var a = $('<a>', {class: "mp_stacks_gallery_image_a", href: original_size_url}).css("margin", border + "px");
-					var img =  $('<img/>', {class: "photo", src: photo["url"+url_size], width: photo_width, height: photo_height });
+					var img =  $('<img/>', {class: "photo", src: photo_to_show_url, width: photo_width, height: photo_height });
 					
 					a.append(img);
 					
@@ -261,6 +288,7 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 					i = (i + 1) % photos_per_row;
 					tw++;
 				}
+				
 				// if total width is slightly bigger than 
 				// actual div width then subtract 1 from each 
 				// photo width till they match
@@ -279,7 +307,8 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 				baseline += photos_per_row;
 				
 				current_row = next_row;
-			}
+			
+				}
 		}
 	});
 }

@@ -1,21 +1,21 @@
 <?php
 /*
 Plugin Name: MP Stacks + Gallery
-Plugin URI: http://moveplugins.com
+Plugin URI: http://mintplugins.com
 Description: Display a photo gallery in a brick.
-Version: beta1.0.0.6
-Author: Move Plugins
-Author URI: http://moveplugins.com
+Version: beta1.0.0.7
+Author: Mint Plugins
+Author URI: http://mintplugins.com
 Text Domain: mp_stacks_gallery
 Domain Path: languages
 License: GPL2
 */
 
-/*  Copyright 2012  Phil Johnston  (email : phil@moveplugins.com)
+/*  Copyright 2014  Phil Johnston  (email : phil@mintplugins.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Move Plugins Core.
+    published by the Free Software Mint Plugins Core.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -147,6 +147,13 @@ function mp_stacks_gallery_include_files(){
 		 * Metabox for gallery
 		 */
 		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/metaboxes/mp-stacks-gallery-meta/mp-stacks-gallery-meta.php' );
+		
+		/**
+		 * Functions which assist with the creation of templates using this add-on
+		 */
+		if ( function_exists('mp_stacks_developer_textdomain') ){
+			require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/misc-functions/stack-template-functions.php' );
+		}
 		
 		/**
 		 * Metabox which adds gallery as a content type
