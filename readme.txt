@@ -2,19 +2,17 @@
 Contributors: johnstonphilip
 Donate link: http://mintplugins.com/
 Tags: message bar, header
-Requires at least: beta1.0.0.0
-Tested up to: beta1.0.4.3
-Stable tag: beta1.0.4.3
+Requires at least: 3.5
+Tested up to: 3.9.1
+Stable tag: 1.0.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-An amazing Page Builder for WordPress. Content-Types go in a Brick, Bricks go in a Stack, Stacks go on a page.
+Show photos in a Brick from Flickr or from WordPress in a “justified” image gallery as seen on Flickr and Google Images!
 
 == Description ==
 
-Build pages using the MP Stacks plugin by making “Bricks”. Each Brick can have its own background image, colour, size, and 2 “Content-Types”. 
-
-There are 3 Content-Types” built into the MP Stacks Plugin: Video, Image, and Text.
+Show photos in a Brick from Flickr or from WordPress in a “justified” image gallery as seen on Flickr and Google Images!
 
 == Installation ==
 

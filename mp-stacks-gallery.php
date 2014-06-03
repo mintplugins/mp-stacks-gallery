@@ -2,8 +2,8 @@
 /*
 Plugin Name: MP Stacks + Gallery
 Plugin URI: http://mintplugins.com
-Description: Display a photo gallery in a brick.
-Version: beta1.0.0.7
+Description: Show photos in a Brick from Flickr or from WordPress in a “justified” image gallery as seen on Flickr and Google Images!
+Version: 1.0.0.0
 Author: Mint Plugins
 Author URI: http://mintplugins.com
 Text Domain: mp_stacks_gallery
