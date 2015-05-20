@@ -52,7 +52,9 @@ function mp_stacks_gallery_create_meta_box(){
 			'field_id'			=> 'gallery_wp_gallery_shortcode',
 			'field_title' 	=> __( 'Gallery Images: ', 'mp_stacks_gallery'),
 			'field_description' 	=> '<a href="#" class="mp-stacks-gallery-meta-button">' . __( 'Manage', 'mp_stacks_gallery' ) . '</a>' ,
-			'field_type' 	=> 'hidden',
+			'field_type' 	=> 'textbox',
+			'field_conditional_id' => 'gallery_source',
+			'field_conditional_values' => array( 'wp' ),
 			'field_value' => '',
 		),
 		array(
@@ -61,6 +63,8 @@ function mp_stacks_gallery_create_meta_box(){
 			'field_description' 	=> '<br />' . __( 'Enter your Flickr PhotoSet URL', 'mp_stacks_gallery' ),
 			'field_type' 	=> 'url',
 			'field_value' => '',
+			'field_conditional_id' => 'gallery_source',
+			'field_conditional_values' => array( 'flickr' ),
 		),
 		array(
 			'field_id'			=> 'gallery_justified_row_height',
@@ -92,7 +96,7 @@ function mp_stacks_gallery_create_meta_box(){
 	global $mp_stacks_gallery_meta_box;
 	$mp_stacks_gallery_meta_box = new MP_CORE_Metabox($mp_stacks_gallery_add_meta_box, $mp_stacks_gallery_items_array);
 }
-add_action('plugins_loaded', 'mp_stacks_gallery_create_meta_box');
+add_action('mp_brick_metabox', 'mp_stacks_gallery_create_meta_box');
 
 /**
  * Create filter to set the description to be the Gallery Preview
