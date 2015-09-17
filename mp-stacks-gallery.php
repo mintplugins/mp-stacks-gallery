@@ -136,7 +136,7 @@ function mp_stacks_gallery_include_files(){
 		/**
 		 * enqueue scripts
 		 */
-		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/misc-functions/enqueue-scripts.php' );
+		require( MP_STACKS_GALLERY_PLUGIN_DIR . 'includes/misc-functions/admin-enqueue-scripts.php' );
 		
 		/**
 		 * Media Filters for gallery
