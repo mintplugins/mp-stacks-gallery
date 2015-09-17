@@ -7,11 +7,31 @@
  * @package    MP Stacks Gallery
  * @subpackage Functions
  *
- * @copyright  Copyright (c) 2014, Mint Plugins
+ * @copyright  Copyright (c) 2015, Mint Plugins
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @author     Philip Johnston
  */
- 
+
+
+/**
+ * This function hooks to the brick css output. If it is supposed to be a 'gallery', then it will add the css for those gallery to the brick's css
+ *
+ * @access   public
+ * @since    1.0.0
+ * @return   void
+ */
+function mp_stacks_brick_content_output_css_gallery( $css_output, $post_id, $first_content_type, $second_content_type ){
+
+	if ( $first_content_type != 'gallery' && $second_content_type != 'gallery' ){
+		return $css_output;	
+	}
+	
+	//Enqueue gallery CSS
+	wp_enqueue_style( 'mp_stacks_gallery_css', plugins_url( 'css/gallery.css', dirname( __FILE__ ) ) );
+	
+}
+add_filter('mp_brick_additional_css', 'mp_stacks_brick_content_output_css_gallery', 10, 4);
+	 
 /**
  * This function hooks to the brick output. If it is supposed to be a 'gallery_item', then it will output the gallery
  *
@@ -24,8 +44,9 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 	//If this stack content type is set to be an image	
 	if ($mp_stacks_content_type == 'gallery'){
 		
-		global $mp_stacks_gallery_js_output;
-		
+		//Enqueue gallery JS
+		wp_enqueue_script( 'mp_stacks_gallery_js', plugins_url( 'js/gallery-front-end.js', dirname( __FILE__ ) ), array('jquery', 'mp_stacks_lightbox' ), false, true );
+				
 		//Set default value for $content_output to NULL
 		$content_output = NULL;	
 		
@@ -134,7 +155,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			$gallery_justified_row_height = get_post_meta($post_id, 'gallery_justified_row_height', true);	
 			$gallery_justified_row_height = !empty($gallery_justified_row_height) ? $gallery_justified_row_height : 200;
 			
-			$js_output = '<script>
+			$js_output = '
 				
 				var mp_stacks_gallery_flickr_array_' . $post_id . ' = [';
 					
@@ -174,9 +195,10 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 				
 				$js_output .= '];
 				
-				mp_stacks_gallery_justified( mp_stacks_gallery_flickr_array_' . $post_id . ', "' . $gallery_justified_row_height . '", "' . $post_id . '" );
-				
-			</script>';
+				jQuery(document).ready(function($) {
+					mp_stacks_gallery_justified( mp_stacks_gallery_flickr_array_' . $post_id . ', "' . $gallery_justified_row_height . '", "' . $post_id . '" );
+				});
+			';
 			
 		}
 		//If Gallery Source is WordPress
@@ -222,8 +244,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			}
 			
 			//Assemble the JS we'll need to fire for this gallery in the footer
-			$js_output = 
-			'<script>
+			$js_output = '
 				
 				var mp_stacks_gallery_wp_array_' . $post_id . ' = [';
 					
@@ -232,9 +253,6 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					foreach( $photos_array as $photo ){
 						
 						$js_output .= '{';
-						
-						//Set Counter to 1
-						$counter = 1;
 						
 						//Set total number of items in this photo
 						$total = count($photo);
@@ -245,15 +263,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 							//If we have a value set for this key
 							if ($value){
 								
-								$js_output .= ' "' . $key . '": "' . $value . '"'; 
-								
-								//increment counter
-								$counter = $counter + 1;
-								
-								//If we aren't on our last photo info item, put a comma
-								if ( $counter < $total ){
-									$js_output .= ', ';	
-								}
+								$js_output .= ' "' . $key . '": "' . $value . '",'; 								
 								
 							}	
 						}
@@ -263,15 +273,13 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 				
 				$js_output .= '];
 				
-				mp_stacks_gallery_justified( mp_stacks_gallery_wp_array_' . $post_id . ', "' . $gallery_justified_row_height . '", "' . $post_id . '" );
-				
-			</script>';
+				jQuery(document).ready(function($) {
+					mp_stacks_gallery_justified( mp_stacks_gallery_wp_array_' . $post_id . ', "' . $gallery_justified_row_height . '", "' . $post_id . '" );
+				});
+			';
 			
 		}
 		
-		//Add the JS to the global variable which will handle all mp_stacks_galleries on this page
-		$mp_stacks_gallery_js_output[$post_id] = $js_output;
-			
 		//Get Gallery Output
 		$gallery_output = '<div class="mp-stacks-gallery">';
 			
@@ -282,6 +290,10 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 		//Content output
 		$content_output .= $gallery_output;
 		
+		//Pull in the existing MP Stacks inline js string which is output the Footer.
+		global $mp_stacks_footer_inline_js;
+		$mp_stacks_footer_inline_js[ 'mp-stacks-gallery-' . $post_id ] = $js_output;
+	
 		//Return
 		return $content_output;
 	}
@@ -291,19 +303,3 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 	}
 }
 add_filter('mp_stacks_brick_content_output', 'mp_stacks_brick_content_output_gallery', 10, 3);
-
-function mp_stacks_gallery_output_js(){
-	
-	global $mp_stacks_gallery_js_output;
-	
-	if ( empty( $mp_stacks_gallery_js_output ) ){
-		return;	
-	}
-	
-	if ( wp_script_is( 'mp_stacks_gallery_js', 'done' ) ) {
-		foreach( $mp_stacks_gallery_js_output as $gallery_js ){
-			echo $gallery_js;
-		}
-	}
-}
-add_action( 'wp_footer', 'mp_stacks_gallery_output_js', 100);
