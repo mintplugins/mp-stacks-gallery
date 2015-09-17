@@ -186,14 +186,25 @@ function mp_stacks_gallery_justified( mp_stacks_photoset_url_or_array, row_heigh
 
 //Lightbox Gallery
 jQuery(document).ready(function($) {
-	//Gallery Images in Lightbox
-	$('.mp-stacks-gallery').each(function() { // the containers for all your galleries
-		$(this).magnificPopup({
-			delegate: '.mp_stacks_gallery_image_a', // the selector for gallery item
-			type: 'image',
-			gallery: {
-			  enabled:true
-			}
-		});
-	}); 
+	
+	function mp_stacks_gallery_initialize(){
+		//Gallery Images in Lightbox
+		$('.mp-stacks-gallery').each(function() { // the containers for all your galleries
+			$(this).magnificPopup({
+				delegate: '.mp_stacks_gallery_image_a', // the selector for gallery item
+				type: 'image',
+				gallery: {
+				  enabled:true
+				}
+			});
+		}); 
+	}
+	
+	mp_stacks_gallery_initialize();
+	
+	
+	$(document).ajaxComplete(function(event) {
+        mp_stacks_gallery_initialize();
+    });
+	
 });
