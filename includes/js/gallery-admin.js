@@ -56,16 +56,18 @@ jQuery(document).ready(function($){
 							
 						//Loop through each image thumbnail selected by the user			
 						$.each(thumbnails, function( index, value ) {
-														
-							if ( value.thumbnail ){
-								var imageurl = value.thumbnail.url;
-							}
-							else{
-								var imageurl = value.full.url;
-							}
 							
-							//Show thumbnail preview
-							$('.mp-stacks-gallery-preview').append( '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' + JSON.stringify(imageurl, null, 4) + ' /></a>' );
+							if ( value ){							
+								if ( value.thumbnail ){
+									var imageurl = value.thumbnail.url;
+								}
+								else{
+									var imageurl = value.full.url;
+								}
+								
+								//Show thumbnail preview
+								$('.mp-stacks-gallery-preview').append( '<a href="#" class="mp-stacks-gallery-meta-button"><img src=' + JSON.stringify(imageurl, null, 4) + ' /></a>' );
+							}
 	
 						});
 						
@@ -76,7 +78,7 @@ jQuery(document).ready(function($){
 			},
 		 
 			init: function() {
-				$('.mp-stacks-gallery-meta-button').on( "click", function( event ) {
+				$( document ).on( "click", '.mp-stacks-gallery-meta-button', function( event ) {
 					
 					event.preventDefault();
 		 
@@ -131,38 +133,40 @@ jQuery(document).ready(function($){
 jQuery(document).ready(function($) {
 	
 	function reset_mp_stacks_gallery_options(){
+		
 		//Hide all Gallery Options
 		$('.mp_field_gallery_wp_gallery_shortcode').css('display', 'none');	
 		$('.mp_field_gallery_flickr_photoset_url').css('display', 'none');	
-		$('.mp_field_gallery_jusitified_row_height').css('display', 'none');	
-				
+		$('.mp_field_gallery_jusitified_row_height').css('display', 'none');			
 	
 		//Show correct media type metaboxes by looping through each item in the 1st drodown
-		$("#mp_stacks_gallery_metabox .gallery_source>option:selected").map(function() { 
+		var chosen_gallery_style = $("#mp_stacks_gallery_metabox .gallery_source>option:selected").val();
+		console.log(chosen_gallery_style);
+		
 						
-			if ( $(this).val() == 'wp' ){
-				
-				//Show WP Gallery Options
-				$('.mp_field_gallery_wp_gallery_shortcode').css('display', 'block');
-				$('.mp_field_gallery_jusitified_row_height').css('display', 'block');		
-				
-			}
+		if ( chosen_gallery_style == 'wp' ){
 			
-			if ( $(this).val() == 'flickr' ){
-				
-				//Show Flickr Gallery Options
-				$('.mp_field_gallery_flickr_photoset_url').css('display', 'block');	
-				$('.mp_field_gallery_jusitified_row_height').css('display', 'block');	
-				
-			}
+			//Show WP Gallery Options
+			$('.mp_field_gallery_wp_gallery_shortcode').css('display', 'block');
+			$('.mp_field_gallery_jusitified_row_height').css('display', 'block');		
 			
+		}
+		
+		if ( chosen_gallery_style == 'flickr' ){
 			
-		});
+			//Show Flickr Gallery Options
+			$('.mp_field_gallery_flickr_photoset_url').css('display', 'block');	
+			$('.mp_field_gallery_jusitified_row_height').css('display', 'block');	
+			
+		}
+			
 	}
 	
-	$('#mp_stacks_gallery_metabox .gallery_source').change(function() {
+	$( document ).on( 'change', '#mp_stacks_gallery_metabox .gallery_source', function() {
 		reset_mp_stacks_gallery_options();
 	});
 	
-	reset_mp_stacks_gallery_options();
+	$( window ).on( 'load', function(){
+		reset_mp_stacks_gallery_options();
+	});
 });
