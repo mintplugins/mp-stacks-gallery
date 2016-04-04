@@ -3,8 +3,8 @@ Contributors: johnstonphilip
 Donate link: http://mintplugins.com/
 Tags: message bar, header
 Requires at least: 3.5
-Tested up to: 4.3
-Stable tag: 1.0.0.2
+Tested up to: 4.4
+Stable tag: 1.0.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ See full instructions at http://mintplugins.com/doc/mp-stacks
 
 
 == Changelog ==
+
+= 1.0.0.3 = April 3, 2016
+* Added support for new flickr album URLs which have "photos" in the URL instead of "set"
 
 = 1.0.0.2 = September 17, 2015
 * Added additional check for value in jquery gallery layout
