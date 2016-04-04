@@ -4,7 +4,7 @@ Donate link: http://mintplugins.com/
 Tags: message bar, header
 Requires at least: 3.5
 Tested up to: 4.4
-Stable tag: 1.0.0.3
+Stable tag: 1.0.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ See full instructions at http://mintplugins.com/doc/mp-stacks
 
 
 == Changelog ==
+
+= 1.0.0.4 = April 3, 2016
+* Proper html entities for Flickr Titles (if there was a quote in the title it would break previously)
 
 = 1.0.0.3 = April 3, 2016
 * Added support for new flickr album URLs which have "photos" in the URL instead of "set"
