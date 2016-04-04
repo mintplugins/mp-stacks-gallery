@@ -70,10 +70,17 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			}
 			
 			//Get PhotoSet ID from the Photoset URL
-			$mp_stacks_photoset_id = explode('sets/', $gallery_photoset_url);
-			$mp_stacks_photoset_id = explode('/', $mp_stacks_photoset_id[1]);
-			$mp_stacks_photoset_id = $mp_stacks_photoset_id[0];
-			
+			if ( strpos( $gallery_photoset_url, 'sets/' ) !== false ){
+				$mp_stacks_photoset_id = explode('sets/', $gallery_photoset_url);
+				$mp_stacks_photoset_id = explode('/', $mp_stacks_photoset_id[1]);
+				$mp_stacks_photoset_id = $mp_stacks_photoset_id[0];
+			}
+			else{
+				$mp_stacks_photoset_id = explode('photos/', $gallery_photoset_url);
+				$mp_stacks_photoset_id = explode('/', $mp_stacks_photoset_id[1]);
+				$mp_stacks_photoset_id = $mp_stacks_photoset_id[2];
+			}
+						
 			$photoset = wp_remote_get('https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&extras=url_o,url_c,url_z,url_n,url_m&photoset_id=' . $mp_stacks_photoset_id . '&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?');
 			
 			//Decode Response
