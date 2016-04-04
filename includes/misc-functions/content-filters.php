@@ -104,7 +104,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					$photos_array[$photo_in_set_counter]['url'] = $photo_in_set->url_c;
 					$photos_array[$photo_in_set_counter]['width'] = $photo_in_set->width_c;
 					$photos_array[$photo_in_set_counter]['height'] = $photo_in_set->height_c;
-					$photos_array[$photo_in_set_counter]['title'] = $photo_in_set->title;
+					$photos_array[$photo_in_set_counter]['title'] = htmlentities($photo_in_set->title);
 				
 				}
 				//If not url_c, lets try size url_z
@@ -114,7 +114,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					$photos_array[$photo_in_set_counter]['url'] = $photo_in_set->url_z;
 					$photos_array[$photo_in_set_counter]['width'] = $photo_in_set->width_z;
 					$photos_array[$photo_in_set_counter]['height'] = $photo_in_set->height_z;
-					$photos_array[$photo_in_set_counter]['title'] = $photo_in_set->title;
+					$photos_array[$photo_in_set_counter]['title'] = htmlentities($photo_in_set->title);
 					
 				}
 				//If not url_z, lets try size url_n
@@ -124,7 +124,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					$photos_array[$photo_in_set_counter]['url'] = $photo_in_set->url_n;
 					$photos_array[$photo_in_set_counter]['width'] = $photo_in_set->width_n;
 					$photos_array[$photo_in_set_counter]['height'] = $photo_in_set->height_n;
-					$photos_array[$photo_in_set_counter]['title'] = $photo_in_set->title;
+					$photos_array[$photo_in_set_counter]['title'] = htmlentities($photo_in_set->title);
 					
 				}
 				//If not url_n, lets try size url_m
@@ -134,7 +134,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					$photos_array[$photo_in_set_counter]['url'] = $photo_in_set->url_m;
 					$photos_array[$photo_in_set_counter]['width'] = $photo_in_set->width_m;
 					$photos_array[$photo_in_set_counter]['height'] = $photo_in_set->height_m;
-					$photos_array[$photo_in_set_counter]['title'] = $photo_in_set->title;
+					$photos_array[$photo_in_set_counter]['title'] = htmlentities($photo_in_set->title);
 					
 				}
 				//If not url_m, lets try size url_o
@@ -144,7 +144,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 					$photos_array[$photo_in_set_counter]['url'] = $photo_in_set->url_o;
 					$photos_array[$photo_in_set_counter]['width'] = $photo_in_set->width_o;
 					$photos_array[$photo_in_set_counter]['height'] = $photo_in_set->height_o;
-					$photos_array[$photo_in_set_counter]['title'] = $photo_in_set->title;
+					$photos_array[$photo_in_set_counter]['title'] = htmlentities($photo_in_set->title);
 					
 				}
 				//If not url_o, your flickr account isn't set up to work with the API - so nothing happens
