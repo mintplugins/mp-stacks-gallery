@@ -140,7 +140,7 @@ jQuery(document).ready(function($) {
 		$('.mp_field_gallery_jusitified_row_height').css('display', 'none');			
 	
 		//Show correct media type metaboxes by looping through each item in the 1st drodown
-		var chosen_gallery_style = $("#mp_stacks_gallery_metabox .gallery_source>option:selected").val();
+		var chosen_gallery_style = $(".gallery_source>option:selected").val();
 		console.log(chosen_gallery_style);
 		
 						
@@ -162,7 +162,7 @@ jQuery(document).ready(function($) {
 			
 	}
 	
-	$( document ).on( 'change', '#mp_stacks_gallery_metabox .gallery_source', function() {
+	$( document ).on( 'change', '.gallery_source', function() {
 		reset_mp_stacks_gallery_options();
 	});
 	
