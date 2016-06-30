@@ -80,6 +80,7 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 				$mp_stacks_photoset_id = explode('/', $mp_stacks_photoset_id[1]);
 				$mp_stacks_photoset_id = $mp_stacks_photoset_id[2];
 			}
+			
 						
 			$photoset = wp_remote_get('https://api.flickr.com/services/rest/?format=json&method=flickr.photosets.getPhotos&extras=url_o,url_c,url_z,url_n,url_m&photoset_id=' . $mp_stacks_photoset_id . '&api_key=dbb49a0e2dcc3958834f1b92c072be62&jsoncallback=?');
 			
@@ -87,10 +88,10 @@ function mp_stacks_brick_content_output_gallery($default_content_output, $mp_sta
 			$photoset = wp_remote_retrieve_body($photoset);
 			$photoset = str_replace( 'jsonFlickrApi(', '', $photoset );
 			$photoset = substr( $photoset, 0, strlen( $photoset ) - 1 ); //strip out last paren
-			$photoset = json_decode($photoset);
+			$photoset = json_decode( str_replace( '/**/', '', $photoset ) );
 			
 			$photo_in_set_counter = 0;
-								
+											
 			//loop through each image in this photoset
 			foreach( $photoset->photoset->photo as $photo_in_set ){
 							
