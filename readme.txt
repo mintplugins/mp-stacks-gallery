@@ -3,8 +3,8 @@ Contributors: johnstonphilip
 Donate link: http://mintplugins.com/
 Tags: message bar, header
 Requires at least: 3.5
-Tested up to: 4.4
-Stable tag: 1.0.0.4
+Tested up to: 4.5
+Stable tag: 1.0.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,10 @@ See full instructions at http://mintplugins.com/doc/mp-stacks
 
 
 == Changelog ==
+
+= 1.0.0.5 = June 30, 2016
+* Fix gallery type not showing upon change in metabox (flickr vs wp gallery)
+* Before parsing JSON from Flickr, remove strange extras flickr added to their json feed recently.
 
 = 1.0.0.4 = April 3, 2016
 * Proper html entities for Flickr Titles (if there was a quote in the title it would break previously)
